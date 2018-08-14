@@ -1,0 +1,300 @@
+{
+  "name": "snap-recipients-by-town",
+  "datapackage_version": "1.0-beta.18",
+  "title": "SNAP Recipients by Town",
+  "description": "SNAP Recipients by Town reports the number and percent of households that receive SNAP, by race/ethnicity of the householder.",
+  "version": "1.0",
+  "licenses": [{
+    "url": "http://opendatacommons.org/licenses/pddl/",
+    "name": "Open Data Commons Public Domain",
+    "version": "1.0",
+    "id": "odc-pddl"
+  }],
+  "sources": [{
+    "name": "uscensus",
+    "web": ""
+  }],
+  "author":[{
+    "name": "Jenna Daly",
+    "email": "jdaly@ctdata.org",
+    "web": "http://ctdata.org"
+  }],
+  "contributor": [],
+  "resources": [{
+    "path": "data/snap-recipients-by-town-2016.csv",
+    "format": "csv",
+    "schema": {
+      "fields": [{
+          "name": "Town",
+          "type": "string",
+          "dimension": false
+        }, {
+          "name": "FIPS",
+          "type": "string",
+          "dimension": false
+        }, {
+          "name": "Year",
+          "type": "string",
+          "dimension": false
+        }, {
+          "name": "Race/Ethnicity",
+          "type": "string",
+          "dimension": true,
+          "constraints": {
+            "enum": ["All",  
+                     "American Indian and Alaska Native Alone",
+                     "Asian Alone",                                
+                     "Black or African American Alone",           
+                     "Hispanic or Latino",                         
+                     "Native Hawaiian and Other Pacific Islander", 
+                     "Some Other Race Alone",                     
+                     "Two or More Races",                          
+                     "White Alone",                              
+                     "White Alone Not Hispanic or Latino"
+            ]
+          }
+        }, {          
+          "name": "Measure Type",
+          "type": "string",
+          "dimension": true,
+          "constraints": {
+            "enum": ["Number", "Percent"]
+          }
+        }, {
+          "name": "Variable",
+          "type": "string",
+          "dimension": true,
+          "constraints": {
+            "enum": ["SNAP Recipients", "Margins of Error"]
+          }
+        }, {
+          "name": "Value",
+          "type": "number",
+          "dimension": false
+        }]
+      }
+    }
+  ],
+  "last_modified": "08/14/2018",
+  "ckan_extras": {
+    "full_description": {
+      "ckan_name": "Full Description",
+      "value": "These data originate from the American Community Survey (ACS) 5-Year estimates, tables B22005A-I. The ACS collects these data from a sample of households on a rolling monthly basis. ACS aggregates samples into one-, three-, or five-year periods. CTdata.org generally carries the five-year datasets, as they are considered to be the most accurate, especially for geographic areas that are the size of a county or smaller.",
+      "type": "string"
+    },
+    "suppression": {
+      "ckan_name": "Suppression",
+      "value": "",
+      "type": "string"
+    },
+    "technical_notes": {
+      "ckan_name": "Technical Notes",
+      "value": "",
+      "type": "string"
+    },
+    "socrata": {
+      "ckan_name": "Socrata",
+      "value": "False",
+      "type": "string"
+    },
+    "socrata_url": {
+      "ckan_name": "Socrata Dataset URL",
+      "value": "",
+      "type": "string"
+    },
+    "socrata_dataset_name": {
+      "ckan_name": "Socrata Dataset Name",
+      "value": "",
+      "type": "string"
+    }, 
+    "domain": {
+      "ckan_name": "Domain",
+      "value": "Economy",
+      "type": "string"
+    },
+    "subdomain": {
+      "ckan_name": "Subdomain",
+      "value": "Social Assistance",
+      "type": "string"
+    },
+    "numerator": {
+      "ckan_name": "Numerator",
+      "value": "Total number of households receiving SNAP",
+      "type": "string"
+    },
+    "denominator": {
+      "ckan_name": "Denominator",
+      "value": "Total number of households",
+      "type": "string"
+    },
+    
+    "geography": {
+      "ckan_name": "Geography",
+      "value": "Town",
+      "type": "string",
+      "constraints": {"enum": ["Town", "County", "Town/County", "District", "Other"]}
+    },
+    "frequency": {
+      "ckan_name": "Frequency",
+      "value": "Other",
+      "type": "string"
+    },
+    "years_in_catalog": {
+      "ckan_name": "Years in Catalog",
+      "value": ["2006-2010", "2007-2011", "2008-2012", "2009-2013", "2010-2014", "2011-2015", "2012-2016"],
+      "type": "array"
+    },
+    "latest_year": {
+      "ckan_name": "Latest Year Available",
+      "value": "2012-2016",
+      "type": "string"
+    },
+    "disabled_views": {
+      "ckan_name": "Disabled Views",
+      "value": [],
+      "type": "array",
+      "constraints": {"enum": ["map", "table", "bar", "line"]}
+    },
+    "units": {
+      "ckan_name": "Units",
+      "value": {
+        "Number": "",
+        "Percent": "%"
+      }
+    },
+    "expected_number_of_geographies": {
+      "ckan_name": "Expected Number of Unique Geographies",
+      "value": 170,
+       "type": "string"
+      },  
+    "default": {      
+      "ckan_name": "Default",
+      "value": {
+       "Town": ["Connecticut"], 
+        "Year": "2012-2016",
+        "Race/Ethnicity": ["All"],
+        "Measure Type": ["Number", "Percent"],
+        "Variable": ["SNAP Recipients"]
+      },
+      "type": "object"
+    }  
+  },
+  "spot_checks": [
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Connecticut",
+        "Year":	"2006-2010",
+        "Variable":	"SNAP Recipients",
+        "Measure Type":	"Number",
+        "Race/Ethnicity": "All" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 98180
+      } 
+    }, {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Bridgeport",
+        "Year":	"2007-2011",
+        "Variable":	"Margins of Error",
+        "Measure Type":	"Number",
+        "Race/Ethnicity": "White Alone" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 432
+      } 
+    }, {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Hebron",
+        "Year":	"2008-2012",
+        "Variable":	"SNAP Recipients",
+        "Measure Type":	"Percent",
+        "Race/Ethnicity": "American Indian and Alaska Native Alone" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 0
+      } 
+    }, {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Connecticut",
+        "Year":	"2006-2010",
+        "Variable":	"Margins of Error",
+        "Measure Type":	"Number",
+        "Race/Ethnicity": "All" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 1974.05
+      } 
+    }, {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Waterbury",
+        "Year":	"2010-2014",
+        "Variable":	"SNAP Recipients",
+        "Measure Type":	"Number",
+        "Race/Ethnicity": "Some Other Race Alone" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 2317
+      } 
+    }, {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Norwich",
+        "Year":	"2012-2016",
+        "Variable":	"Margins of Error",
+        "Measure Type":	"Percent",
+        "Race/Ethnicity": "Hispanic or Latino" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 11.89
+      } 
+    }, {
+      "type": "$lookup",
+      "filter": {
+        "Town": "New Britain",
+        "Year":	"2012-2016",
+        "Variable":	"SNAP Recipients",
+        "Measure Type":	"Percent",
+        "Race/Ethnicity": "Black or African American Alone" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 35.15
+      } 
+    } 
+  ],
+  "dimension_groups": [
+    {
+      "Race/Ethnicity": ["All",  
+                     "American Indian and Alaska Native Alone",
+                     "Asian Alone",                                
+                     "Black or African American Alone",           
+                     "Hispanic or Latino",                         
+                     "Native Hawaiian and Other Pacific Islander", 
+                     "Some Other Race Alone",                     
+                     "Two or More Races",                          
+                     "White Alone",                              
+                     "White Alone Not Hispanic or Latino"
+      ],
+      "Measure Type": ["Number", "Percent"],
+      "Variable": ["SNAP Recipients", "Margins of Error"]
+    }
+  ]
+}
