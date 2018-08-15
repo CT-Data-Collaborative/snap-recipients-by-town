@@ -187,3 +187,37 @@ append.table <- function(data, file, ...) {
         )
     }
 }
+
+#from tidycensus
+moe_sum <- function(moe, estimate = NULL) {
+  if (!is.null(estimate)) {
+    # ID those MOE values with 0 estimates
+    zeros <- estimate == 0
+    # Reduce the vector and keep the first one
+    onezero <- unique(moe[zeros])
+    # Combine with the non-zeros
+    forcalc <- c(onezero, moe[!zeros])
+  } else if (is.null(estimate)) {
+    warning("You have not specified the estimates associated with the margins of error.  In the event that your calculation involves multiple zero estimates, this will unnaturally inflate the derived margin of error.", call. = FALSE)
+    forcalc <- moe
+  }
+  squared <- map_dbl(forcalc, function(x) x^2)
+  result <- sqrt(sum(squared))
+  return(result)
+}
+
+moe_prop <- function(num, denom, moe_num, moe_denom) {
+  prop <- num / denom
+  x <- moe_num^2 - (prop^2 * moe_denom^2)
+  result <- ifelse(x < 0, moe_ratio(num = num, denom = denom, moe_num = moe_num, moe_denom = moe_denom),
+                   sqrt(x) / denom)
+  return(result)
+}
+
+moe_ratio <- function(num, denom, moe_num, moe_denom) {
+  r2 <- (num / denom)^2
+  mn2 <- moe_num^2
+  md2 <- moe_denom^2
+  result <- (sqrt(mn2 + (r2 * md2))) / denom
+  return(result)
+}
