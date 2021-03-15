@@ -19,7 +19,7 @@ source('./scripts/acsHelpers.R')
 
 #Get state data
 geography=geo.make(state=09)
-yearlist=c(2010:2018)
+yearlist=c(2019:2019)
 span = 5
 col.names="pretty" 
 key="ed0e58d2538fb239f51e01643745e83f380582d7"
@@ -337,7 +337,7 @@ dataset_final$Value[dataset_final$Value == "NaN"] <- 0
 
 write.table(
     dataset_final,
-    file.path("data", "snap-recipients-by-town-2018.csv"),
+    file.path("data", "snap-recipients-by-town-2019-only.csv"),
     sep = ",",
     row.names = F,
     na = "-9999"
